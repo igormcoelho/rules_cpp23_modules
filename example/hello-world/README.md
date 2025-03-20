@@ -1,5 +1,7 @@
 # Example: hello-world
 
+This is an example for project [rules_cpp23_modules](https://github.com/igormcoelho/rules_cpp23_modules).
+
 This example is inspired by [rules_cc_module/example/hello-world](https://github.com/rnburn/rules_cc_module/tree/main/example/hello-world), however using C++23 `import std;` and a new rule called `cc_compiled_module`.
 
 ## Example

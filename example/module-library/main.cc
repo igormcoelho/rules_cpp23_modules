@@ -1,8 +1,8 @@
-#include "example/module-library/b.h"
+#include "b.h"
 
-#include <iostream>
+import std;
 
 int main() {
-  std::cout << plus_float(1.0, 2.0) << std::endl;
+  std::println("{}", plus_float(1.0, 2.0));
   return 0;
 }

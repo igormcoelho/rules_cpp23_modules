@@ -1,5 +1,5 @@
-load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
-load("//cc_module:defs.bzl", "cc_module", "cc_module_library")
+#load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
+load("//cc_module:defs.bzl", "cc_module", "cc_module_library", "cc_compiled_module")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -7,10 +7,9 @@ licenses(["notice"])
 
 cc_module(
     name = "a",
-    src = "a.cc",
+    src = "a.cppm",
     copts = [
-        "-fmodules-ts",
-        "-std=c++20",
+        "-std=c++23",
     ],
 )
 
@@ -26,21 +25,30 @@ cc_module_library(
         ":a",
     ],
     copts = [
-        "-fmodules-ts",
-        "-std=c++20",
+        "-std=c++23",
     ],
 )
 
 cc_binary(
-    name = "a.out",
+    name = "module_library",
     srcs = [
         "main.cc",
     ],
     deps = [
         ":b",
+        ":std"
     ],
     copts = [
-        "-fmodules-ts",
-        "-std=c++20",
+        "-fmodule-file=std=example/module-library/std.pcm",
+        "-std=c++23",
     ],
+    linkopts = [
+        "-stdlib=libc++",
+    ],
+)
+
+
+cc_compiled_module(
+    name="std",
+    cmi="std.pcm"
 )
