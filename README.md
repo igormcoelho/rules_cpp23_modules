@@ -17,7 +17,7 @@ For now, feel free to test modules and `import std;` on Bazel 8  ;)
 
 See examples!
 
-For now, see [examples/hello-world/README.md](./examples/hello-world/README.md).
+For now, see [example/hello-world/README.md](./example/hello-world/README.md).
 
 
 ## Copyleft
