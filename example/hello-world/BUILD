@@ -1,77 +1,35 @@
-load("//cc_module:defs.bzl", "cc_module", "cc_module_binary")
+load("//cc_module:defs.bzl", "cc_module", "cc_compiled_module", "cc_module_binary")
 
 cc_module(
     name = "hello",
-    src = "hello.ixx",
+    src = "hello.cppm",
     copts = [
-        "-fmodules",
-        "-fbuiltin-module-map",
-        "-stdlib=libc++",
-        "-std=c++20",
+        "-fmodule-file=std=example/hello-world/std.pcm",
+        "-std=c++23",
     ],
-    deps = [
-        ":_Builtin_stddef_max_align_t",
-        ":std",
-    ],
+    deps = [":std"],
 )
 
+
 cc_module_binary(
-    name = "a.out",
+    name = "hello_world",
     srcs = [
         "main.cc",
     ],
     deps = [
         ":hello",
-        ":_Builtin_stddef_max_align_t",
-        ":std",
+        ":std"
     ],
     copts = [
-        "-fmodules",
-        "-fbuiltin-module-map",
-        "-stdlib=libc++",
-        "-std=c++20",
+        "-fmodule-file=std=example/hello-world/std.pcm",
+        "-std=c++23",
     ],
     linkopts = [
         "-stdlib=libc++",
     ],
 )
 
-cc_module(
-    name = "_Builtin_stddef_max_align_t",
-    is_system = True,
-    copts = [
-        "-fmodules",
-        "-fbuiltin-module-map",
-        "-stdlib=libc++",
-        "-std=c++20",
-    ],
-)
-
-cc_module(
-    name = "std_config",
-    is_system = True,
-    copts = [
-        "-fmodules",
-        "-fbuiltin-module-map",
-        "-stdlib=libc++",
-        "-std=c++20",
-    ],
-    deps = [
-        ":_Builtin_stddef_max_align_t",
-    ],
-)
-
-cc_module(
-    name = "std",
-    is_system = True,
-    copts = [
-        "-fmodules",
-        "-fbuiltin-module-map",
-        "-stdlib=libc++",
-        "-std=c++20",
-    ],
-    deps = [
-        ":_Builtin_stddef_max_align_t",
-        ":std_config",
-    ],
+cc_compiled_module(
+    name="std",
+    cmi="std.pcm"
 )

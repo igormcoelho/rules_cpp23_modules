@@ -32,3 +32,11 @@
 *.app
 
 bazel-*
+
+*.pcm
+build/
+.cache/
+gcm.cache/
+*.bazel.lock
+hello_world_clang
+hello_world_gcc

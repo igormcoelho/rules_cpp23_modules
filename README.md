@@ -1,81 +1,27 @@
-# rules_cc_module
+# rules_cpp23_module
 
-Rules to use C++20 modules with Bazel.
+This project is the same as [rburn/rules_cc_module](https://github.com/rnburn/rules_cc_module), but including a **VERY EXPERIMENTAL** rule called `cc_compiled_module` to allow using C++23 `import std;` feature on bazel.
+
+At the time of writing, there's no official support in Bazel, although two ongoing PRs may solve this (I hope very soon!).
+
+- https://github.com/bazelbuild/bazel/pull/22553
+- https://github.com/bazelbuild/bazel/pull/22555
+
+See [Issue 15 on rules_cc_module](https://github.com/rnburn/rules_cc_module/issues/15).
+
+When those two PRs above are merged and bazel officially supports modules, you must **Abandon this project!**.
+
+For now, feel free to test modules and `import std;` on Bazel 8  ;)
 
 ## Getting started
 
-Note: Currently only works with a recent version of clang.
+See examples!
 
-Build a simple module:
-```bazel
-cc_module(
-    name = "Hello",
-    src = "say_hello.cc", # say_hello exports the module Hello
-)
+For now, see [examples/hello-world/README.md](./examples/hello-world/README.md).
 
-# Build a binary with the module
-cc_module_binary(
-    name = "a.out",
-    srcs = [
-        "main.cc",  # We can import Hello in main.cc
-    ],
-    deps = [
-        ":Hello",
-    ],
-)
-```
 
-Build a module with implementation units:
-```bazel
-cc_module_binary(
-  name = "speech",
-  src = "speech.cc",  # speech.cc exports the module speech
-  impl_srcs = [
-    "speech_impl.cc", # speech_impl.cc provides implements (but doesn't export) speech
-  ],
-)
-```
+## Copyleft
 
-Interoperate with regular cc libraries
-```bazel
-cc_module(
-    name = "a",
-    src = "a.cc",
-)
+Apache 2.0 (inherited from rules_cc_modules)
 
-cc_module_library(
-    name = "b",
-    hdrs = [
-        "b.h",
-    ],
-    srcs = [
-        "b.cc", # b can import module a, but shouldn't export a module
-    ],
-    deps = [
-        ":a",
-    ],
-)
-
-# We can use b with regular cc rules
-cc_binary(
-    name = "a.out",
-    srcs = [
-        "main.cc",
-    ],
-    deps = [
-        ":b",
-    ],
-)
-```
-
-## Documentation
-[How to Use C++20 Modules with Bazel](https://buildingblock.ai/cpp20-modules-bazel)
-
-## Examples
-The directory [example](https://github.com/rnburn/bazel-cpp20-modules/tree/main/example) demonstrates 
-usage and there is a docker image that provides a build environment. To build the examples,
-run
-```
-./ci/run_docker.sh # spins up a build environment
-bazel build //example/... # build the examples
-```
+Igor M. Coelho, 2025
