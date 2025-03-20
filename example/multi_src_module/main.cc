@@ -1,14 +1,13 @@
 import speech;
 
-import <iostream>;
-import <string>;
+import std;
 
 std::string get_phrase() {
     return "Hello, world!";
 }
 
 int main() {
-  std::cout << get_phrase() << std::endl;
-  std::cout << get_phrase_en() << std::endl;
+  std::println("{}", get_phrase());
+  std::println("{}", get_phrase_en());
   return 0;
 }

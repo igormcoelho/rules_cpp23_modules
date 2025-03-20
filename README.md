@@ -17,10 +17,12 @@ For now, feel free to test modules and `import std;` on Bazel 8  ;)
 
 See examples!
 
--  [example/hello-world/README.md](./example/hello-world/README.md).
+1.  [example/hello-world/README.md](./example/hello-world/README.md).
    * Or manually generate `std.pcm` (see instructions on readme) and run: `bazel run //example/hello-world:hello_world`
--  [example/module-library/README.md](./example/module-library/README.md).
+2.  [example/module-library/README.md](./example/module-library/README.md).
    * Or manually generate `std.pcm` (see instructions on readme) and run: `bazel run //example/module-library:module_library`
+3.  [example/multi_src_module/README.md](./example/multi_src_module/README.md).
+   * Or manually generate `std.pcm` (see instructions on readme) and run: `bazel run //example/multi_src_module:multi_src_demo`
 
 More coming soon...
 

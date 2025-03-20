@@ -11,7 +11,7 @@ There are two files:
 - hello.cppm, a c++20 module that uses `import std;` from c++23
 - main.cc, a c++ source/binary file that uses `import hello;` and also `import std;`.
 
-To build it on bazel, normally main.cc would be a `cc_binary` (here is a `cc_binary_module`) and hello.cppm is a `cc_module`. 
+To build it on bazel, normally main.cc would be a `cc_binary` (here is a `cc_module_binary`) and hello.cppm is a `cc_module`. 
 
 For std, we need to Manually Build it (see [post on medium](https://igormcoelho.medium.com/its-time-to-use-cxx-modules-on-modern-c-41a574b77e83)), generating CMI `std.pcm`, on clang 19; or CMI `gcm.cache/std.gcm`, on gcc 15 (still does not work on bazel, but works on makefile!).
 This CMI is imported into bazel with the new **experimental** rule `cc_compiled_module`.

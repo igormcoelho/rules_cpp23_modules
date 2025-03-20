@@ -83,6 +83,7 @@ def cc_module_compile_action(ctx, src, compilation_context, module_info=None, is
     if module_info:
       driver_args += ['--module_name', module_info.module_name]
       driver_args += ['--module_file', module_info.module_file.path]
+      
 
     outputs = [obj]
     if is_interface:
