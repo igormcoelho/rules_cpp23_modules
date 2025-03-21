@@ -27,8 +27,9 @@ First, remember to *MANUALLY GENERATE* `std.pcm` MCI file for each example... ea
    * Or manually generate `std.pcm` (see instructions on readme) and run: `bazel run //example/multi_src_module:multi_src_demo`
 4.  [example/template-module/README.md](./example/template-module/README.md).
    * Or manually generate `std.pcm` (see instructions on readme) and run: `bazel run //example/template-module:example`
+5.  [example/transitive/README.md](./example/transitive/README.md).
+   * Or manually generate `std.pcm` (see instructions on readme) and run: `bazel build //example/transitive:trans`
 
-More coming soon...
 
 ## Copyleft
 
