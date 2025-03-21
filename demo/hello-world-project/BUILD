@@ -10,7 +10,6 @@ cc_module(
     deps = [":std"],
 )
 
-
 cc_module_binary(
     name = "myproject",
     srcs = [
