@@ -4,9 +4,11 @@ module;
 
 export module algorithm;
 
-import <algorithm>;
-import <type_traits>;
-import <vector>;
+import std;
+
+// import <algorithm>;
+// import <type_traits>;
+// import <vector>;
 
 export template <class Iter>
 auto compute_median(Iter first, Iter last) {
