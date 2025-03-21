@@ -4,7 +4,7 @@ cc_module(
     name = "hello",
     src = "hello.cppm",
     copts = [
-        "-fmodule-file=std=example/hello-world/std.pcm",
+        "-fmodule-file=std=std.pcm",
         "-std=c++23",
     ],
     deps = [":std"],
@@ -12,7 +12,7 @@ cc_module(
 
 
 cc_module_binary(
-    name = "hello_world",
+    name = "myproject",
     srcs = [
         "main.cc",
     ],
@@ -21,7 +21,7 @@ cc_module_binary(
         ":std"
     ],
     copts = [
-        "-fmodule-file=std=example/hello-world/std.pcm",
+        "-fmodule-file=std=std.pcm",
         "-std=c++23",
     ],
     linkopts = [

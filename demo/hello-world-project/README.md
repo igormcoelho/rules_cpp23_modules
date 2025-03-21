@@ -2,6 +2,8 @@
 
 This is an demo for project [rules_cpp23_modules](https://github.com/igormcoelho/rules_cpp23_modules).
 
+
+## How to use it 
 To use it, just add this to your `MODULE.bazel` file:
 
 ```
@@ -10,62 +12,83 @@ bazel_dep(name = "rules_cpp23_module", dev_dependency = True)
 git_override(
     module_name = "rules_cpp23_module",
     remote = "https://github.com/igormcoelho/rules_cpp23_modules.git",
-    commit = "80b88de987b3c845282a5335a398e30d8685537f",
+    commit = "2c068e46d9af0465cabc9cf42fd7f6eccfc02d15",
 )
 ```
 
-This demo is inspired by [rules_cc_module/example/hello-world](https://github.com/rnburn/rules_cc_module/tree/main/example/hello-world), however using C++23 `import std;` and a new rule called `cc_compiled_module`.
-
-## Example
-
-There are two files:
-
-- hello.cppm, a c++20 module that uses `import std;` from c++23
-- main.cc, a c++ source/binary file that uses `import hello;` and also `import std;`.
-
-To build it on bazel, normally main.cc would be a `cc_binary` (here is a `cc_module_binary`) and hello.cppm is a `cc_module`. 
+### Remember to build `std.pcm`
 
 For std, we need to Manually Build it (see [post on medium](https://igormcoelho.medium.com/its-time-to-use-cxx-modules-on-modern-c-41a574b77e83)), generating CMI `std.pcm`, on clang 19; or CMI `gcm.cache/std.gcm`, on gcc 15 (still does not work on bazel, but works on makefile!).
 This CMI is imported into bazel with the new **experimental** rule `cc_compiled_module`.
 
-## How to run it
+Just type: `make std.pcm` to build it with clang 19.
 
-This is tested on Clang 19, and one needs to build `std.pcm` manually (an example is provided in [Makefile](Makefile), for both gcc and clang). For clang just run `make hello_world_clang` or `make std.pcm`
 
-After that, just run: `bazel build //example/hello-world:hello_world`
+### Just run bazel
 
 ```
-$ bazel run //example/hello-world:hello_world 
-INFO: Analyzed target //example/hello-world:hello_world (0 packages loaded, 0 targets configured).
+$ bazel run //:myproject
+INFO: Analyzed target //:myproject (0 packages loaded, 0 targets configured).
 INFO: Found 1 target...
-Target //example/hello-world:hello_world up-to-date:
-  bazel-bin/example/hello-world/hello_world
-INFO: Elapsed time: 0.166s, Critical Path: 0.00s
+Target //:myproject up-to-date:
+  bazel-bin/myproject
+INFO: Elapsed time: 0.151s, Critical Path: 0.00s
 INFO: 1 process: 1 internal.
 INFO: Build completed successfully, 1 total action
-INFO: Running command line: bazel-bin/example/hello-world/hello_world
+INFO: Running command line: bazel-bin/myproject
 
 Hello world!
 ```
 
-## Known Issues
+## Understanding the Demo
 
-If `std.pcm` is not provided, then this error will occur:
+### Understanding the Demo: the C++
+
+On C++ side, we have module `hello.cppm` that uses c++23 `import std` module:
 
 ```
-$ bazel build //example/hello-world:hello_world 
-INFO: Analyzed target //example/hello-world:hello_world (1 packages loaded, 6 targets configured).
-ERROR: ......./rules_cpp23_modules/example/hello-world/BUILD:3:10: Action example/hello-world/cc_module_interface-hello.o failed: missing input file '//example/hello-world:std.pcm'
-ERROR: ......./rules_cpp23_modules/example/hello-world/BUILD:3:10: Action example/hello-world/cc_module_interface-hello.o failed: 1 input file(s) do not exist
-Target //example/hello-world:hello_world failed to build
-Use --verbose_failures to see the command lines of failed build steps.
-ERROR: ......./rules_cpp23_modules/example/hello-world/BUILD:3:10 Action example/hello-world/cc_module_interface-hello.o failed: 1 input file(s) do not exist
-INFO: Elapsed time: 0.248s, Critical Path: 0.00s
-INFO: 1 process: 6 action cache hit, 1 internal.
-ERROR: Build did NOT complete successfully
-``` 
+// hello.cppm
 
-## More advices
+export module hello;
 
-We also provide a CMakeLists.txt if you want to try it with CMake 4.0 (tested on clang 19 and gcc 15).
+import std;
 
+export inline void say_hello(std::string_view const &name)
+{
+  std::cout << "Hello " << name << "!\n";
+}
+```
+
+And also the C++ source `main.cc`, that consumes module `hello`:
+
+```
+// main.cc
+import hello;
+
+int main() {
+  say_hello("world");
+  return 0;
+}
+```
+
+### Understanding the Demo: the bazel side
+
+The BUILD file is very intuitive: `cc_module` declares modules, where `cc_module_binary` declares targets that consume modules.
+Since `std.pcm` is built manually, then one must manually declare its dependency in targets with:
+
+```
+    copts = [
+        "-fmodule-file=std=std.pcm",
+        "-std=c++23",
+    ],
+```
+
+Remember to use relevant rules from load statement: 
+
+```
+load("@rules_cpp23_module//cc_module:defs.bzl", "cc_module", "cc_compiled_module", "cc_module_binary")
+```
+
+Finally, modules `hello` and `std` from c++23 can be built together into `myproject` binary demo.
+
+Good luck!

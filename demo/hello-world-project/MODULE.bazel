@@ -5,5 +5,5 @@ bazel_dep(name = "rules_cpp23_module", dev_dependency = True)
 git_override(
     module_name = "rules_cpp23_module",
     remote = "https://github.com/igormcoelho/rules_cpp23_modules.git",
-    commit = "80b88de987b3c845282a5335a398e30d8685537f",
+    commit = "2c068e46d9af0465cabc9cf42fd7f6eccfc02d15",
 )
