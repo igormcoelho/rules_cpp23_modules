@@ -1,0 +1,10 @@
+# MODULE.bazel file
+module(name = "myproject")
+
+bazel_dep(name = "rules_cpp23_modules", dev_dependency = True)
+
+git_override(
+    module_name = "rules_cpp23_modules",
+    remote = "https://github.com/igormcoelho/rules_cpp23_modules.git",
+    commit = "f3607b4b55ccfec0c14f13dcd73095659adc1245",
+)

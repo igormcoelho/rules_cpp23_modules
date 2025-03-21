@@ -1,5 +1,7 @@
 # rules_cpp23_module
 
+This is an experimental project, please read the text ["Experimenting C++23 import std with Bazel and Clang"](https://igormcoelho.medium.com/experimenting-c-23-import-std-with-bazel-and-clang-1bec82779ac8).
+
 This project is the same as [rburn/rules_cc_module](https://github.com/rnburn/rules_cc_module), but including a **VERY EXPERIMENTAL** rule called `cc_compiled_module` to allow using C++23 `import std;` feature on bazel.
 
 At the time of writing, there's no official support in Bazel, although two ongoing PRs may solve this (I hope very soon!).
