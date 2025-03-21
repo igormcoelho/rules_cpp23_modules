@@ -33,7 +33,7 @@ First, remember to *MANUALLY GENERATE* `std.pcm` MCI file for each example... ea
 
 ## Feel free to try our demo project
 
-See demo on demo/hello-world-project.
+See demo on [demo/hello-world-project](./demo/hello-world-project/README.md)
 
 ### Steps to use it 
 To use it, just add this to your `MODULE.bazel` file:
