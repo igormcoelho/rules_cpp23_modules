@@ -1,4 +1,4 @@
-load("@rules_cpp23_module//cc_module:defs.bzl", "cc_module", "cc_compiled_module", "cc_module_binary")
+load("@rules_cpp23_modules//cc_module:defs.bzl", "cc_module", "cc_compiled_module", "cc_module_binary")
 
 cc_module(
     name = "hello",

@@ -7,10 +7,10 @@ This is an demo for project [rules_cpp23_modules](https://github.com/igormcoelho
 To use it, just add this to your `MODULE.bazel` file:
 
 ```
-bazel_dep(name = "rules_cpp23_module", dev_dependency = True)
+bazel_dep(name = "rules_cpp23_modules", dev_dependency = True)
 
 git_override(
-    module_name = "rules_cpp23_module",
+    module_name = "rules_cpp23_modules",
     remote = "https://github.com/igormcoelho/rules_cpp23_modules.git",
     commit = "2c068e46d9af0465cabc9cf42fd7f6eccfc02d15",
 )

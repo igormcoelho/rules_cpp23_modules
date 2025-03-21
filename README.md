@@ -39,10 +39,10 @@ See demo on [demo/hello-world-project](./demo/hello-world-project/README.md)
 To use it, just add this to your `MODULE.bazel` file:
 
 ```
-bazel_dep(name = "rules_cpp23_module", dev_dependency = True)
+bazel_dep(name = "rules_cpp23_modules", dev_dependency = True)
 
 git_override(
-    module_name = "rules_cpp23_module",
+    module_name = "rules_cpp23_modules",
     remote = "https://github.com/igormcoelho/rules_cpp23_modules.git",
     commit = "2c068e46d9af0465cabc9cf42fd7f6eccfc02d15",
 )
@@ -116,7 +116,7 @@ Since `std.pcm` is built manually, then one must manually declare its dependency
 Remember to use relevant rules from load statement: 
 
 ```
-load("@rules_cpp23_module//cc_module:defs.bzl", "cc_module", "cc_compiled_module", "cc_module_binary")
+load("@rules_cpp23_modules//cc_module:defs.bzl", "cc_module", "cc_compiled_module", "cc_module_binary")
 ```
 
 Finally, modules `hello` and `std` from c++23 can be built together into `myproject` binary demo.
