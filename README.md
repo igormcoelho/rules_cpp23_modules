@@ -19,15 +19,15 @@ See examples, and remember they expect Clang 19 and Bazel 8 (trying to make it w
 
 First, remember to *MANUALLY GENERATE* `std.pcm` MCI file for each example... each README demonstrate how!
 
-1.  [example/hello-world/README.md](./example/hello-world/README.md).
+1.  [example/hello-world/README.md](./example/hello-world/README.md)
    * Or manually generate `std.pcm` (see instructions on readme) and run: `bazel run //example/hello-world:hello_world`
-2.  [example/module-library/README.md](./example/module-library/README.md).
+2.  [example/module-library/README.md](./example/module-library/README.md)
    * Or manually generate `std.pcm` (see instructions on readme) and run: `bazel run //example/module-library:module_library`
-3.  [example/multi_src_module/README.md](./example/multi_src_module/README.md).
+3.  [example/multi_src_module/README.md](./example/multi_src_module/README.md)
    * Or manually generate `std.pcm` (see instructions on readme) and run: `bazel run //example/multi_src_module:multi_src_demo`
-4.  [example/template-module/README.md](./example/template-module/README.md).
+4.  [example/template-module/README.md](./example/template-module/README.md)
    * Or manually generate `std.pcm` (see instructions on readme) and run: `bazel run //example/template-module:example`
-5.  [example/transitive/README.md](./example/transitive/README.md).
+5.  [example/transitive/README.md](./example/transitive/README.md)
    * Or manually generate `std.pcm` (see instructions on readme) and run: `bazel build //example/transitive:trans`
 
 
