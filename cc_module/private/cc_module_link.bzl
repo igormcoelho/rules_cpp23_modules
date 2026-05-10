@@ -61,6 +61,18 @@ def cc_module_link_action(ctx, objs, linking_context, exe):
 
     linkopts = getattr(ctx.attr, "linkopts", [])
 
+    # === NEW FIX: Handle libc++ linking on clang 21 (clang 19 ok...) ===
+    all_copts = getattr(ctx.attr, "copts", [])
+    all_link_flags = list(link_args) + list(linkopts)
+    
+    has_libcxx = "-stdlib=libc++" in all_copts or "-stdlib=libc++" in all_link_flags
+    
+    if has_libcxx:
+        # remove -lstdc++ and add libc++ libraries
+        link_args = [arg for arg in link_args if arg != "-lstdc++"]
+        linkopts = linkopts + ["-lc++", "-lc++abi"]
+    # === END NEW ===
+
     args = ctx.actions.args()
     args.add_all(link_args)
     args.add_all(linkopts)

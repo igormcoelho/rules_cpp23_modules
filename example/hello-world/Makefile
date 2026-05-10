@@ -1,7 +1,7 @@
 # CXX = clang++-19
 CXX = g++-15
 CXX_GCC=g++-15
-CXX_CLANG=clang++-19
+CXX_CLANG=clang++-21
 CXXFLAGS_GCC   += -std=c++23  -fmodules -U_FORTIFY_SOURCE -fstack-protector -Wall  -Wunused-but-set-parameter -Wno-free-nonheap-object  -fno-omit-frame-pointer '-std=c++23' -fPIC
 CXXFLAGS_CLANG += -std=c++23 -stdlib=libc++ -U_FORTIFY_SOURCE -fstack-protector -Wall -Wthread-safety -Wself-assign -Wunused-but-set-parameter -Wno-free-nonheap-object -fcolor-diagnostics -fno-omit-frame-pointer '-std=c++23' -fPIC
 
@@ -26,7 +26,7 @@ hello_world_clang: std.pcm hello.pcm main.cc
 	echo "BUILDING HELLO WORLD ON CLANG"
 	$(CXX_CLANG) $(CXXFLAGS_CLANG) -fmodule-file=std=std.pcm -fmodule-file=hello=hello.pcm  -o $@ $^
 
-std.pcm: /usr/lib/llvm-19/share/libc++/v1/std.cppm 
+std.pcm: /usr/lib/llvm-21/share/libc++/v1/std.cppm 
 	$(CXX_CLANG) $(CXXFLAGS_CLANG) -Wno-reserved-identifier -Wno-reserved-module-identifier --precompile -o $@ $^
 
 hello.pcm: hello.cppm std.pcm
