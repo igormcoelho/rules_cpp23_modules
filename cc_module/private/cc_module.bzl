@@ -312,7 +312,7 @@ cc_module_binary = rule(
     implementation = _cc_module_binary_impl,
     attrs = dict(_common_attrs.items() + _cc_module_binary_attrs.items()),
     toolchains = ["@bazel_tools//tools/cpp:toolchain_type"],
-    incompatible_use_toolchain_transition = True,
+    incompatible_use_toolchain_transition = True, # removed in Bazel 9
     fragments = ["cpp"],
     executable = True,
 )

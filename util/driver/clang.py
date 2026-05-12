@@ -7,13 +7,24 @@ def setup_module_map(driver_args):
     m = ""
     with open(driver_args.module_map, 'r') as f:
         for line in f.readlines():
+            # FIX PARA CLANG REMOVER O '$root .' DO MAPPER DO GCC...
+            line = line.strip()
+            if not line or line.startswith('$root'):
+                continue
+            # FIM DO FIX!!!
             name, module_file = line.split(' ')
-            m += '-fmodule-file=%s=%s' % (name, module_file)
+            # OK, adicionando \n aqui...
+            m += '-fmodule-file=%s=%s\n' % (name, module_file.strip())
     if driver_args.module_file and not driver_args.module_interface:
         m += '-fmodule-file=%s\n' % driver_args.module_file
     map_file = 'clang-module-map'
     with open(map_file, 'w') as f:
         f.write(m)
+    # DEBUG CLANG MAPPER!
+    #import sys
+    #print("CLANG MAP:", m, file=sys.stderr)
+    #print("driver_args:", vars(driver_args), file=sys.stderr)
+    ## FIM DEBUG
     return map_file
 
 def get_src_type(module_name):

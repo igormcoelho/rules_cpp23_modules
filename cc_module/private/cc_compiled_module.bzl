@@ -50,7 +50,10 @@ _common_attrs = {
 ###########################################################################################
 def _cc_compiled_module_impl(ctx):
   hdr = ctx.file.cmi
-  module_name = "./" + hdr.path
+  # PARA CLANG!! USA PATH...
+  # module_name = "./" + hdr.path
+  # PARA GCC!! USA 'module_name' AO INVES DE PATH...
+  module_name = ctx.attr.module_name if ctx.attr.module_name else "./" + hdr.path
 
   module_out_file = ctx.actions.declare_file(hdr.basename) 
 
@@ -81,10 +84,24 @@ def _cc_compiled_module_impl(ctx):
   # HELP:  I just need to pass .gcm / .pcm file directly to bazel, so I fake it here...
   # HELP2: there MUST be a better way of doing this...
   # ============================================
+  # ORIGINAL! TOUCH OK FOR CLANG!!
+  #ctx.actions.run_shell(
+  #  outputs = [module_out_file],
+  #  command = "touch %s" % module_out_file.path,
+  #)
+
+  #ctx.actions.run_shell(
+  #  outputs = [module_out_file],
+  #  inputs = [hdr],
+  #  command = "cp %s %s" % (hdr.path, module_out_file.path),
+  #)
+
   ctx.actions.run_shell(
     outputs = [module_out_file],
-    command = "touch %s" % module_out_file.path,
+    inputs = [hdr],
+    command = "cp -f {src} {dst}".format(src=hdr.path, dst=module_out_file.path),
   )
+
   # ===========================================
 
   hdr_compilation_context = cc_common.create_compilation_context(
@@ -105,6 +122,13 @@ def _cc_compiled_module_impl(ctx):
 
 _cc_compiled_module_attrs = {
   "cmi": attr.label(mandatory = True, allow_single_file = True),
+  "module_name": attr.string(default = ""), 
+  # IMPORTANT: module_name is used in both gcc and clang, but with different meanings!
+  # for gcc, it is a "logical name" of the module, as in gcc-module-mapper file:
+  # $root .
+  # std ... => 'std' is a logical name
+  # for clang, it is used as some logical name passed in flag -fmodule-name=xxx
+  # so, it is necessary for both compilers! likely module_name = "std"
 }
 
 cc_compiled_module = rule(

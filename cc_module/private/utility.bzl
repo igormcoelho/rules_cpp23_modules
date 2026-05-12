@@ -25,7 +25,8 @@ def get_includes(ctx):
   return result
 
 def make_module_mapper(owner, actions, modules):
-  module_map = ""
+  #module_map = ""
+  module_map = "$root .\n"
   for module in modules.to_list():
     module_map += "%s %s\n" % (module.module_name, module.module_file.path)
   map_file = actions.declare_file(owner + "-module-map")
