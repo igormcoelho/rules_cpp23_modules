@@ -27,7 +27,9 @@ For now, feel free to test modules and `import std;` on Bazel 8 or Bazel 9  ;)
 
 ## Getting started
 
-See examples, and remember they expect Clang 21 and Bazel 8 or 9 (GCC 15 works with Bazel 8)!
+## Examples for Bazel 8 with MANUAL construction of CMI (for clang and gcc)
+
+See examples, and remember they expect Clang 21 / GCC 15 on Bazel 8 (for Bazel 9 support on clang, see [demo9](./demo9)).
 
 First, remember to *MANUALLY GENERATE* `std.pcm` (or `std.gcm`) MCI file for each example... each README demonstrate how!
 
