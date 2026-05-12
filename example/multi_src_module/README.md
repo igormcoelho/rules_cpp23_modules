@@ -4,6 +4,13 @@ This is an example for project [rules_cpp23_modules](https://github.com/igormcoe
 
 This example is inspired by [rules_cc_module/example/multi_src_module](https://github.com/rnburn/rules_cc_module/tree/main/example/multi_src_module), however using C++23 `import std;` and a new rule called `cc_compiled_module`.
 
+**IMPORTANT:** to build `std.gcm` for gcc, just run: `make std_gcm`
+
+> IMPORTANT: This is for Bazel 8 and before, since after Bazel 9 there's official support for modules (at least for clang!).
+
+> For Bazel 9 with clang, see [demo9/simple](../../demo9/simple/README.md).
+
+
 ## Quicks
 
 This example works fine on `Makefile` for Clang (not implemented on GCC).

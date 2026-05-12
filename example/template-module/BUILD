@@ -3,10 +3,7 @@ load("//cc_module:defs.bzl", "cc_module", "cc_compiled_module", "cc_module_binar
 cc_module(
     name = "algorithm",
     src = "algorithm.cppm",
-    copts = [
-        "-fmodule-file=std=example/template-module/std.pcm",
-        "-std=c++23",
-    ],
+    copts = [ "-std=c++23" ],
     deps = [":std"],
 )
 
@@ -20,16 +17,17 @@ cc_module_binary(
         ":algorithm",
         ":std"
     ],
-    copts = [
-        "-fmodule-file=std=example/template-module/std.pcm",
-        "-std=c++23",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-    ],
+    copts = [ "-std=c++23" ],
 )
 
 cc_compiled_module(
-    name="std",
-    cmi="std.pcm"
+    name = "std",
+    cmi = "gcm.cache/std.gcm",
+    module_name = "std",  # for both clang and gcc!
 )
+
+#cc_compiled_module(
+#    name="std",
+#    cmi="std.pcm",
+#    module_name = "std",  # for both clang and gcc!
+#)

@@ -9,4 +9,3 @@ build --action_env=CXX=/usr/bin/g++-15
 #
 build --repo_env=BAZEL_COMPILER=gcc
 build --experimental_cpp_modules
-build --cxxopt=-std=c++23

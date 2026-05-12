@@ -10,10 +10,7 @@ cc_module(
     impl_srcs = [
         "spanish_english_dictionary_impl.cc",
     ],
-    copts = [
-        "-fmodule-file=std=example/multi_src_module/std.pcm",
-        "-std=c++23",
-    ],
+    copts = [ "-std=c++23" ],
     deps = [
         ":std",
     ],
@@ -25,16 +22,11 @@ cc_module(
     impl_srcs = [
         "speech_impl.cc",
     ],
-    copts = [
-        "-fmodule-file=std=example/multi_src_module/std.pcm",
-        "-std=c++23",
-    ],
+    copts = [ "-std=c++23" ],
     impl_deps = [
         ":spanish_english_dictionary",
     ],
-    deps = [
-        ":std"
-    ],
+    deps = [ ":std" ],
 )
 
 cc_module_binary(
@@ -46,17 +38,17 @@ cc_module_binary(
         ":speech",
         ":std"
     ],
-    copts = [
-        "-fmodule-file=std=example/multi_src_module/std.pcm",
-        "-std=c++23",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
-    ],
+    copts = [ "-std=c++23" ],
 )
-
 
 cc_compiled_module(
-    name="std",
-    cmi="std.pcm"
+    name = "std",
+    cmi = "gcm.cache/std.gcm",
+    module_name = "std",  # for both clang and gcc!
 )
+
+#cc_compiled_module(
+#    name="std",
+#    cmi="std.pcm",
+#    module_name = "std",  # for both clang and gcc!
+#)
