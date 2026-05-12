@@ -70,12 +70,15 @@ git_override(
 
 Update this hash above with latest one.
 
-### Remember to build `std.pcm`
+### Remember to MANUALLY build `std.pcm` or `std.gcm`
 
-For std, we need to Manually Build it (see [post on medium](https://igormcoelho.medium.com/its-time-to-use-cxx-modules-on-modern-c-41a574b77e83)), generating CMI `std.pcm`, on clang 19; or CMI `gcm.cache/std.gcm`, on gcc 15 (still does not work on bazel, but works on makefile!).
+For std, we need to Manually Build it (see [post on medium](https://igormcoelho.medium.com/its-time-to-use-cxx-modules-on-modern-c-41a574b77e83)), generating CMI `std.pcm`, on clang 19; or CMI `gcm.cache/std.gcm`, on gcc 15.
 This CMI is imported into bazel with the new **experimental** rule `cc_compiled_module`.
 
-Just type: `make std.pcm` to build it with clang 19.
+Just type: 
+
+- `make std.pcm` to build it with clang 21
+- `make std_gcm` to build it with g++ 15
 
 
 ### Just run bazel
@@ -126,13 +129,22 @@ int main() {
 ### Understanding the Demo: the bazel side
 
 The BUILD file is very intuitive: `cc_module` declares modules, where `cc_module_binary` declares targets that consume modules.
-Since `std.pcm` is built manually, then one must manually declare its dependency in targets with:
+Since `std.pcm` (or `std.gcm`) is built manually, then one must manually declare its dependency in targets with `:std`:
 
 ```
-    copts = [
-        "-fmodule-file=std=std.pcm",
-        "-std=c++23",
-    ],
+# for gcc
+cc_compiled_module(
+    name = "std",
+    cmi = "gcm.cache/std.gcm",
+    module_name = "std",  # for both clang and gcc!
+)
+
+# for clang
+#cc_compiled_module(
+#    name="std",
+#    cmi="std.pcm",
+#    module_name = "std",  # for both clang and gcc!
+#)
 ```
 
 Remember to use relevant rules from load statement: 
@@ -150,7 +162,6 @@ cc_module(
     name = "hello",
     src = "hello.cppm",
     copts = [
-        "-fmodule-file=std=std.pcm",
         "-std=c++23",
     ],
     deps = [":std"],
@@ -166,18 +177,23 @@ cc_module_binary(
         ":std"
     ],
     copts = [
-        "-fmodule-file=std=std.pcm",
         "-std=c++23",
-    ],
-    linkopts = [
-        "-stdlib=libc++",
     ],
 )
 
+# for gcc
 cc_compiled_module(
-    name="std",
-    cmi="std.pcm"
+    name = "std",
+    cmi = "gcm.cache/std.gcm",
+    module_name = "std",  # for both clang and gcc!
 )
+
+# for clang
+#cc_compiled_module(
+#    name="std",
+#    cmi="std.pcm",
+#    module_name = "std",  # for both clang and gcc!
+#)
 ```
 
 Finally, modules `hello` and `std` from c++23 can be built together into `myproject` binary demo.
@@ -189,4 +205,4 @@ Good luck!
 
 Apache 2.0 (inherited from rules_cc_modules project)
 
-Igor M. Coelho, 2025
+Igor M. Coelho, 2025-2026
