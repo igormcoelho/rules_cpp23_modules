@@ -1,5 +1,7 @@
-THIS WORKS FINE FOR BAZEL 8.1.0 AND IT'S DEFINITELY BROKEN AFTER BAZEL 9.1.0.
-USE OFFICIAL BAZEL 9 SOLUTION AND DO NOT USE THIS PROJECT ANYMORE.
+THIS WORKS FINE FOR BAZEL 8.1.0 AND IT'S DEFINITELY BROKEN AFTER BAZEL 9.0.0.
+BIG CHANGES IN CCINFO MAKE THIS UNFEASIBLE TO PORT TO BAZEL 9.
+SO, FOR CLANG, USE OFFICIAL BAZEL 9 SOLUTION AND DO NOT USE THIS PROJECT ANYMORE.
+FOR GCC 15, THIS STILL WORKS FINE WITH BAZEL 8, AND DOES NOT WORK WITH BAZEL 9.
 
 $ bazel build //example/hello-world:hello_world --verbose_failures
 Starting local Bazel server (8.1.0) and connecting to it...
@@ -13,26 +15,17 @@ INFO: Build completed successfully, 15 total actions
 
 
 $ bazel build //example/hello-world:hello_world --verbose_failures
-Starting local Bazel server (9.1.0) and connecting to it...
-WARNING: For repository 'rules_cc', the root module requires module version rules_cc@0.1.1, but got rules_cc@0.2.17 in the resolved dependency graph. Please update the version in your MODULE.bazel or set --check_direct_dependencies=off
-ERROR: /home/tmp-user/cpp-tutorials/rules_cpp23_modules/cc_module/private/cc_module.bzl:75:16: The CcInfo symbol has been removed, add the following to your BUILD/bzl file:
-
-load("@rules_cc//cc/common:cc_info.bzl", "CcInfo")
-ERROR: /home/tmp-user/cpp-tutorials/rules_cpp23_modules/cc_module/private/cc_module.bzl:114:13: The CcInfo symbol has been removed, add the following to your BUILD/bzl file:
-
-load("@rules_cc//cc/common:cc_info.bzl", "CcInfo")
-ERROR: /home/tmp-user/cpp-tutorials/rules_cpp23_modules/cc_module/private/cc_module.bzl:203:13: The CcInfo symbol has been removed, add the following to your BUILD/bzl file:
-
-load("@rules_cc//cc/common:cc_info.bzl", "CcInfo")
-ERROR: /home/tmp-user/cpp-tutorials/rules_cpp23_modules/cc_module/private/cc_module.bzl:244:9: The CcInfo symbol has been removed, add the following to your BUILD/bzl file:
-
-load("@rules_cc//cc/common:cc_info.bzl", "CcInfo")
-ERROR: /home/tmp-user/cpp-tutorials/rules_cpp23_modules/cc_module/private/cc_module.bzl:260:13: The CcInfo symbol has been removed, add the following to your BUILD/bzl file:
-
-load("@rules_cc//cc/common:cc_info.bzl", "CcInfo")
-WARNING: Target pattern parsing failed.
-ERROR: Skipping '//example/hello-world:hello_world': error loading package 'example/hello-world': at /home/tmp-user/cpp-tutorials/rules_cpp23_modules/cc_module/defs.bzl:1:6: compilation of module 'cc_module/private/cc_module.bzl' failed
-ERROR: error loading package 'example/hello-world': at /home/tmp-user/cpp-tutorials/rules_cpp23_modules/cc_module/defs.bzl:1:6: compilation of module 'cc_module/private/cc_module.bzl' failed
-INFO: Elapsed time: 7.286s
-INFO: 0 processes.
+Starting local Bazel server (9.0.0) and connecting to it...
+ERROR: /home/tmp-user/cpp-tutorials/rules_cpp23_modules/example/hello-world/BUILD:38:19: in cc_compiled_module rule //example/hello-world:std: 
+Traceback (most recent call last):
+        File "/home/tmp-user/cpp-tutorials/rules_cpp23_modules/cc_module/private/cc_compiled_module.bzl", line 65, column 34, in _cc_compiled_module_impl
+                cc_info_deps = get_cc_info_deps(deps)
+        File "/home/tmp-user/cpp-tutorials/rules_cpp23_modules/cc_module/private/utility.bzl", line 4, column 19, in get_cc_info_deps
+                return cc_common.merge_cc_infos(
+Error: 'struct' value has no field or method 'merge_cc_infos'
+Available attributes: action_is_enabled, add_go_exec_groups_to_binary_rules, check_experimental_cc_shared_library, do_not_use_tools_cpp_compiler_present, empty_variables, get_environment_variables, get_execution_requirements, get_memory_inefficient_command_line, get_tool_for_action, get_tool_requirement_for_action, implementation_deps_allowed_by_allowlist, incompatible_disable_objc_library_transition, internal_DO_NOT_USE, legacy_cc_flags_make_variable_do_not_use
+ERROR: /home/tmp-user/cpp-tutorials/rules_cpp23_modules/example/hello-world/BUILD:38:19: Analysis of target '//example/hello-world:std' (config: f5b3de2) failed
+ERROR: Analysis of target '//example/hello-world:hello_world' failed; build aborted: Analysis failed
+INFO: Elapsed time: 8.747s, Critical Path: 0.02s
+INFO: 1 process: 1 internal.
 ERROR: Build did NOT complete successfully

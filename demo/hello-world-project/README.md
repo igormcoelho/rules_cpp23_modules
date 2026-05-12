@@ -2,6 +2,10 @@
 
 This is an demo for project [rules_cpp23_modules](https://github.com/igormcoelho/rules_cpp23_modules).
 
+> IMPORTANT: This is for Bazel 8 and before, since after Bazel 9 there's official support for modules (at least for clang!).
+
+> For Bazel 9 with clang, see [demo9/hello-world-project](../../demo9/hello-world-project/README.md).
+
 
 ## How to use it 
 To use it, just add this to your `MODULE.bazel` file:

@@ -1,0 +1,17 @@
+#common --incompatible_strict_action_env
+#build --action_env=CC=/usr/bin/g++-15
+#build --action_env=CXX=/usr/bin/g++-15
+#build --action_env=CC=/usr/bin/clang++-21
+#build --action_env=CXX=/usr/bin/clang++-21
+
+
+build --repo_env=BAZEL_COMPILER=clang
+build --repo_env=BAZEL_CXXOPTS=-stdlib=libc++
+build --repo_env=BAZEL_LINKOPTS=-stdlib=libc++ 
+#build --cxxopt=-stdlib=libc++
+#build --linkopt=-stdlib=libc++
+#
+# build --repo_env=BAZEL_COMPILER=gcc
+#
+build --experimental_cpp_modules
+build --cxxopt=-std=c++23

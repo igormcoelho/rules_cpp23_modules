@@ -4,7 +4,7 @@ cc_module(
     name = "hello",
     src = "hello.cppm",
     copts = [
-        "-fmodule-file=std=example/hello-world/std.pcm",
+#        "-fmodule-file=std=example/hello-world/std.pcm",
         "-std=c++23",
     ],
     deps = [":std"],
@@ -21,15 +21,22 @@ cc_module_binary(
         ":std"
     ],
     copts = [
-        "-fmodule-file=std=example/hello-world/std.pcm",
+#        "-fmodule-file=std=example/hello-world/std.pcm",
         "-std=c++23",
     ],
-    linkopts = [
-        "-stdlib=libc++",
-    ],
+#    linkopts = [
+#        "-stdlib=libc++",
+#    ],
 )
 
 cc_compiled_module(
-    name="std",
-    cmi="std.pcm"
+    name = "std",
+    cmi = "gcm.cache/std.gcm",
+    module_name = "std",  # for both clang and gcc!
 )
+
+#cc_compiled_module(
+#    name="std",
+#    cmi="std.pcm",
+#    module_name = "std",  # for both clang and gcc!
+#)
