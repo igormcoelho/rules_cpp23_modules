@@ -39,16 +39,23 @@ cc_binary(
         ":std"
     ],
     copts = [
-        "-fmodule-file=std=example/module-library/std.pcm",
+#        "-fmodule-file=std=example/module-library/std.pcm",
         "-std=c++23",
     ],
-    linkopts = [
-        "-stdlib=libc++",
-    ],
+#    linkopts = [
+#        "-stdlib=libc++",
+#    ],
 )
 
 
 cc_compiled_module(
-    name="std",
-    cmi="std.pcm"
+    name = "std",
+    cmi = "gcm.cache/std.gcm",
+    module_name = "std",  # for both clang and gcc!
 )
+
+#cc_compiled_module(
+#    name="std",
+#    cmi="std.pcm",
+#    module_name = "std",  # for both clang and gcc!
+#)

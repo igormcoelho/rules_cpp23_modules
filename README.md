@@ -4,22 +4,32 @@ This is an experimental project, please read the text ["Experimenting C++23 impo
 
 This project is the same as [rburn/rules_cc_module](https://github.com/rnburn/rules_cc_module), but including a **VERY EXPERIMENTAL** rule called `cc_compiled_module` to allow using C++23 `import std;` feature on bazel.
 
-At the time of writing, there's no official support in Bazel, although two ongoing PRs may solve this (I hope very soon!).
+## Current situation of CXX Modules on Bazel 9
+
+~~At the time of writing, there's no official support in Bazel, although two ongoing PRs may solve this (I hope very soon!).~~
 
 - https://github.com/bazelbuild/bazel/pull/22553
 - https://github.com/bazelbuild/bazel/pull/22555
 
-See [Issue 15 on rules_cc_module](https://github.com/rnburn/rules_cc_module/issues/15).
+~~See [Issue 15 on rules_cc_module](https://github.com/rnburn/rules_cc_module/issues/15).~~
 
-When those two PRs above are merged and bazel officially supports modules, you must **Abandon this project!**.
+See [Issue 19 on rules_cc_module](https://github.com/rnburn/rules_cc_module/issues/19).
 
-For now, feel free to test modules and `import std;` on Bazel 8  ;)
+~~When those two PRs above are merged and bazel officially supports modules, you must **Abandon this project!**.~~
+
+**IMPORTANT:** Bazel 9 now officially (experimentally) supports import std and cxx modules! **(at least for clang)**.
+Thanks @unennhexium for [pointing that out](https://github.com/rnburn/rules_cc_module/issues/19)!
+
+- To try modules on Bazel 9 with clang, see the folder [demo9](./demo9)
+- To try modules on Bazel 8- with gcc or clang **YOU STILL NEED THIS PROJECT**, see the folder [demo](./demo)
+
+For now, feel free to test modules and `import std;` on Bazel 8 or Bazel 9  ;)
 
 ## Getting started
 
-See examples, and remember they expect Clang 19 and Bazel 8 (trying to make it work on GCC 15, and perhaps MSVC too, didn't try yet)!
+See examples, and remember they expect Clang 21 and Bazel 8 or 9 (GCC 15 works with Bazel 8)!
 
-First, remember to *MANUALLY GENERATE* `std.pcm` MCI file for each example... each README demonstrate how!
+First, remember to *MANUALLY GENERATE* `std.pcm` (or `std.gcm`) MCI file for each example... each README demonstrate how!
 
 1.  [example/hello-world/README.md](./example/hello-world/README.md)
    * Or manually generate `std.pcm` (see instructions on readme) and run: `bazel run //example/hello-world:hello_world`
@@ -32,8 +42,14 @@ First, remember to *MANUALLY GENERATE* `std.pcm` MCI file for each example... ea
 5.  [example/transitive/README.md](./example/transitive/README.md)
    * Or manually generate `std.pcm` (see instructions on readme) and run: `bazel build //example/transitive:trans`
 
+## Feel free to try our demo project (for Bazel 9 on clang - EASIER)
 
-## Feel free to try our demo project
+See demo on [demo9/hello-world-project](./demo9/hello-world-project/README.md)
+
+### Steps to use it 
+To use it, just add this to your `MODULE.bazel` file:
+
+## Feel free to try our demo project (for Bazel 8 or less - HARDER)
 
 See demo on [demo/hello-world-project](./demo/hello-world-project/README.md)
 
@@ -46,7 +62,7 @@ bazel_dep(name = "rules_cpp23_modules", dev_dependency = True)
 git_override(
     module_name = "rules_cpp23_modules",
     remote = "https://github.com/igormcoelho/rules_cpp23_modules.git",
-    commit = "f3607b4b55ccfec0c14f13dcd73095659adc1245",
+    commit = "6083fbb0c4a559f8726b04acd732efc005931e7d", # 0.2.0
 )
 ```
 
