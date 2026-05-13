@@ -6,6 +6,7 @@ This is an demo for project [rules_cpp23_modules](https://github.com/igormcoelho
 
 > For Bazel 9 with clang, see [demo9/hello-world-project](../../demo9/hello-world-project/README.md).
 
+> This example focuses on clang, but can be built with gcc as well.
 
 ## How to use it 
 To use it, just add this to your `MODULE.bazel` file:

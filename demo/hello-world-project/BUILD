@@ -4,7 +4,7 @@ cc_module(
     name = "hello",
     src = "hello.cppm",
     copts = [
-        "-fmodule-file=std=std.pcm",
+#        "-fmodule-file=std=std.pcm",
         "-std=c++23",
     ],
     deps = [":std"],
@@ -20,7 +20,7 @@ cc_module_binary(
         ":std"
     ],
     copts = [
-        "-fmodule-file=std=std.pcm",
+#        "-fmodule-file=std=std.pcm",
         "-std=c++23",
     ],
     linkopts = [
@@ -30,5 +30,6 @@ cc_module_binary(
 
 cc_compiled_module(
     name="std",
-    cmi="std.pcm"
+    cmi="std.pcm",
+    module_name="std"
 )

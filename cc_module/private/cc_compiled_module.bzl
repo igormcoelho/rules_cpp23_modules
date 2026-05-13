@@ -50,32 +50,15 @@ _common_attrs = {
 ###########################################################################################
 def _cc_compiled_module_impl(ctx):
   hdr = ctx.file.cmi
-  # PARA CLANG!! USA PATH...
-  # module_name = "./" + hdr.path
-  # PARA GCC!! USA 'module_name' AO INVES DE PATH...
   module_name = ctx.attr.module_name if ctx.attr.module_name else "./" + hdr.path
-
-  module_out_file = ctx.actions.declare_file(hdr.basename) 
 
   includes = []
   hdr_dep = [hdr]
-  outputs = [module_out_file]
 
   deps = ctx.attr.deps
   cc_info_deps = get_cc_info_deps(deps)
-
   module_deps = get_module_deps(deps)
 
-  module_info = ModuleCompileInfo(
-      module_name = module_name,
-      module_file = module_out_file,
-      module_dependencies = module_deps,
-  )
-  module_map = make_module_mapper(
-      ctx.label.name,
-      ctx.actions, 
-      module_deps)
-  compilation_context = make_module_compilation_context(cc_info_deps, module_map, module_deps)
   # ================ WORKAROUND ===============
   #cc_header_module_compile_action(ctx, src=hdr,
   #                         compilation_context=compilation_context,
@@ -90,19 +73,29 @@ def _cc_compiled_module_impl(ctx):
   #  command = "touch %s" % module_out_file.path,
   #)
 
-  #ctx.actions.run_shell(
-  #  outputs = [module_out_file],
-  #  inputs = [hdr],
-  #  command = "cp %s %s" % (hdr.path, module_out_file.path),
-  #)
+  module_out_file = None   # PARA ARQUIVO COMPILADO .pcm OU .gcm
+  if hdr.is_source:
+    module_out_file = ctx.actions.declare_file(hdr.basename)
+    ctx.actions.run_shell(
+        outputs = [module_out_file],
+        inputs = [hdr],
+        command = "cp -f {src} {dst}".format(src=hdr.path, dst=module_out_file.path),
+    )
+  else:
+    module_out_file = hdr # PARA COMPILAÇÃO DIRETA COM genrule!!!
 
-  ctx.actions.run_shell(
-    outputs = [module_out_file],
-    inputs = [hdr],
-    command = "cp -f {src} {dst}".format(src=hdr.path, dst=module_out_file.path),
+  outputs = [module_out_file]
+
+  module_info = ModuleCompileInfo(
+      module_name = module_name,
+      module_file = module_out_file,
+      module_dependencies = module_deps,
   )
-
-  # ===========================================
+  module_map = make_module_mapper(
+      ctx.label.name,
+      ctx.actions,
+      module_deps)
+  compilation_context = make_module_compilation_context(cc_info_deps, module_map, module_deps)
 
   hdr_compilation_context = cc_common.create_compilation_context(
       headers = depset(hdr_dep),
@@ -112,13 +105,12 @@ def _cc_compiled_module_impl(ctx):
       compilation_context = hdr_compilation_context,
   )
   cc_info = cc_common.merge_cc_infos(cc_infos=[cc_info, cc_info_deps])
-  
+
   return [
         DefaultInfo(files = depset(outputs)),
         cc_info,
         module_info,
   ]
-
 
 _cc_compiled_module_attrs = {
   "cmi": attr.label(mandatory = True, allow_single_file = True),
