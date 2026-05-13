@@ -6,5 +6,6 @@ git_override(
     module_name = "rules_cpp23_modules",
     remote = "https://github.com/igormcoelho/rules_cpp23_modules.git",
     # commit = "f3607b4b55ccfec0c14f13dcd73095659adc1245", # 0.1.0
-    commit = "6083fbb0c4a559f8726b04acd732efc005931e7d"  # 0.2.0
+    # commit = "6083fbb0c4a559f8726b04acd732efc005931e7d"  # 0.2.0
+    commit = "3693b2ed64eb4dbc6b310fc860da79bd271da101" # 0.3.0
 )
